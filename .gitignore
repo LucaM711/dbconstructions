@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# VSCode
+.vscode/*
+!.vscode/extensions.json
+.history/
+
+# Environment & Credentials
+.env
+.env.*
+*.pgpass
+
+# Python (for future ETL scripts)
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Logs
+*.log
+
+# Backups
+*.bak
+*.sql.bak
