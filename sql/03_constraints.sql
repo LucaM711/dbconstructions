@@ -29,11 +29,13 @@ ALTER TABLE warehouse
 ALTER TABLE request
     ADD CONSTRAINT chk_request_approval_date_after_request_date CHECK (approval_date >= request_date),
     ADD CONSTRAINT fk_request_construction_site FOREIGN KEY (site_id) REFERENCES construction_site (site_id),
-    ADD CONSTRAINT fk_request_warehouse FOREIGN KEY (warehouse_id) REFERENCES warehouse (warehouse_id);
+    ADD CONSTRAINT fk_request_warehouse FOREIGN KEY (warehouse_id) REFERENCES warehouse (warehouse_id),
+    ADD CONSTRAINT chk_request_status CHECK (status IN ('Pending', 'Approved', 'Rejected'));
 
 -- delivery
 ALTER TABLE delivery
-    ADD CONSTRAINT fk_delivery_construction_site FOREIGN KEY (site_id) REFERENCES construction_site (site_id);
+    ADD CONSTRAINT fk_delivery_construction_site FOREIGN KEY (site_id) REFERENCES construction_site (site_id),
+    ADD CONSTRAINT chk_delivery_status CHECK (delivery_status IN ('In Transit', 'Delivered', 'Canceled'));
 
 -- item
 ALTER TABLE item
@@ -47,7 +49,8 @@ ALTER TABLE inventory_level
 
 --purchase_order
 ALTER TABLE purchase_order
-    ADD CONSTRAINT fk_purchase_order_supplier FOREIGN KEY (supplier_id) REFERENCES supplier (tax_code);
+    ADD CONSTRAINT fk_purchase_order_supplier FOREIGN KEY (supplier_id) REFERENCES supplier (tax_code),
+    ADD CONSTRAINT chk_purchase_order_status CHECK (status IN ('Pending', 'Processing', 'Completed', 'Canceled'));
 
 -- delivery_fulfillment
 ALTER TABLE delivery_fulfillment
