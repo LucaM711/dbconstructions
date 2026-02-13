@@ -37,8 +37,8 @@ SELECT
     w.name AS warehouse_name,
     w.city AS warehouse_location,
     il.quantity AS current_stock,
-    mc.avg_monthly_consumption AS monthly_consumption,
-    (il.quantity / mc.avg_monthly_consumption) * 30 AS estimated_days_remaining
+    ROUND(mc.avg_monthly_consumption, 2) AS monthly_consumption,
+    ROUND((il.quantity / mc.avg_monthly_consumption) * 30, 2) AS estimated_days_remaining
 FROM inventory_level il
 JOIN item i ON i.item_id = il.item_id
 JOIN warehouse w ON w.warehouse_id = il.warehouse_id
@@ -137,8 +137,8 @@ SELECT
     s.name AS supplier_name,
     SUM(od.quantity) AS quantity_ordered,
     COUNT(DISTINCT od.item_id) AS unique_item_id,
-    SUM(od.quantity * od.unit_price) AS total_spent,
-    COUNT(DISTINCT CASE WHEN po.status = 'Completed' THEN po.order_number END) * 100.0 / COUNT(DISTINCT po.order_number) AS completion_rate
+    ROUND(SUM(od.quantity * od.unit_price), 2) AS total_spent,
+    ROUND(COUNT(DISTINCT CASE WHEN po.status = 'Completed' THEN po.order_number END) * 100.0 / COUNT(DISTINCT po.order_number), 2) AS completion_rate
 FROM supplier s 
 JOIN purchase_order po ON s.tax_code = po.supplier_id
 JOIN order_detail od ON po.order_number = od.order_number
